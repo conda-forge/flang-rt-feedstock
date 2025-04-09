@@ -35,6 +35,13 @@ Current build status
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/flang-rt-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_" alt="variant">
                 </a>
               </td>
+            </tr><tr>
+              <td>win_64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=25367&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/flang-rt-feedstock?branchName=main&jobName=win&configuration=win%20win_64_" alt="variant">
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -49,6 +56,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-flang--rt_linux--64-green.svg)](https://anaconda.org/conda-forge/flang-rt_linux-64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/flang-rt_linux-64.svg)](https://anaconda.org/conda-forge/flang-rt_linux-64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/flang-rt_linux-64.svg)](https://anaconda.org/conda-forge/flang-rt_linux-64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/flang-rt_linux-64.svg)](https://anaconda.org/conda-forge/flang-rt_linux-64) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-flang--rt_win--64-green.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/flang-rt_win-64.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/flang-rt_win-64.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/flang-rt_win-64.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libflang--rt-green.svg)](https://anaconda.org/conda-forge/libflang-rt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libflang-rt.svg)](https://anaconda.org/conda-forge/libflang-rt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libflang-rt.svg)](https://anaconda.org/conda-forge/libflang-rt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libflang-rt.svg)](https://anaconda.org/conda-forge/libflang-rt) |
 
 Installing flang-rt
@@ -61,16 +69,16 @@ conda config --add channels conda-forge/label/llvm_dev
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/llvm_dev` channel has been enabled, `flang-rt_linux-64, libflang-rt` can be installed with `conda`:
+Once the `conda-forge/label/llvm_dev` channel has been enabled, `flang-rt_linux-64, flang-rt_win-64, libflang-rt` can be installed with `conda`:
 
 ```
-conda install flang-rt_linux-64 libflang-rt
+conda install flang-rt_linux-64 flang-rt_win-64 libflang-rt
 ```
 
 or with `mamba`:
 
 ```
-mamba install flang-rt_linux-64 libflang-rt
+mamba install flang-rt_linux-64 flang-rt_win-64 libflang-rt
 ```
 
 It is possible to list all of the versions of `flang-rt_linux-64` available on your platform with `conda`:
