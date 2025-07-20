@@ -1,4 +1,4 @@
-{% set version = "21.0.0.dev2" %}
+{% set version = "21.1.0.rc1" %}
 {% set major = version.split(".")[0] %}
 
 package:
@@ -6,9 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  # url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-  url: https://github.com/llvm/llvm-project/archive/eb0f1dc00e5d0e591fe912c1aaf9dd9d01d94b8d.tar.gz
-  sha256: 76ff464edb800d21d041dfe9fcfdbd05063ad71c000a2a6d9c04dd638d315e1f
+  url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
+  sha256: 43c05ada2449f545d35a2530a44ef64a3de7e9dd54e6c53eaa7ffb419daa4f9e
   patches:
     - patches/0001-avoid-baking-in-build-time-paths-to-compiler-rt-into.patch
 

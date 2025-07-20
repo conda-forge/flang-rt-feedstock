@@ -62,14 +62,14 @@ Current release info
 Installing flang-rt
 ===================
 
-Installing `flang-rt` from the `conda-forge/label/llvm_dev` channel can be achieved by adding `conda-forge/label/llvm_dev` to your channels with:
+Installing `flang-rt` from the `conda-forge/label/llvm_rc` channel can be achieved by adding `conda-forge/label/llvm_rc` to your channels with:
 
 ```
-conda config --add channels conda-forge/label/llvm_dev
+conda config --add channels conda-forge/label/llvm_rc
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/llvm_dev` channel has been enabled, `flang-rt_linux-64, flang-rt_win-64, libflang-rt` can be installed with `conda`:
+Once the `conda-forge/label/llvm_rc` channel has been enabled, `flang-rt_linux-64, flang-rt_win-64, libflang-rt` can be installed with `conda`:
 
 ```
 conda install flang-rt_linux-64 flang-rt_win-64 libflang-rt
@@ -84,26 +84,26 @@ mamba install flang-rt_linux-64 flang-rt_win-64 libflang-rt
 It is possible to list all of the versions of `flang-rt_linux-64` available on your platform with `conda`:
 
 ```
-conda search flang-rt_linux-64 --channel conda-forge/label/llvm_dev
+conda search flang-rt_linux-64 --channel conda-forge/label/llvm_rc
 ```
 
 or with `mamba`:
 
 ```
-mamba search flang-rt_linux-64 --channel conda-forge/label/llvm_dev
+mamba search flang-rt_linux-64 --channel conda-forge/label/llvm_rc
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search flang-rt_linux-64 --channel conda-forge/label/llvm_dev
+mamba repoquery search flang-rt_linux-64 --channel conda-forge/label/llvm_rc
 
 # List packages depending on `flang-rt_linux-64`:
-mamba repoquery whoneeds flang-rt_linux-64 --channel conda-forge/label/llvm_dev
+mamba repoquery whoneeds flang-rt_linux-64 --channel conda-forge/label/llvm_rc
 
 # List dependencies of `flang-rt_linux-64`:
-mamba repoquery depends flang-rt_linux-64 --channel conda-forge/label/llvm_dev
+mamba repoquery depends flang-rt_linux-64 --channel conda-forge/label/llvm_rc
 ```
 
 
