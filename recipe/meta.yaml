@@ -8,8 +8,6 @@ package:
 source:
   url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
   sha256: f28b419ea38e554c295969c4d7fc3ea3b517d893b9f35e8e7aff50c507549459
-  patches:
-    - patches/0001-avoid-baking-in-build-time-paths-to-compiler-rt-into.patch
 
 build:
   number: 0
