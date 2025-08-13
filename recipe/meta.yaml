@@ -21,7 +21,9 @@ requirements:
     - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - flang {{ version }}.*
+    - flang =={{ version }}
+    # only to avoid pulling in newer rc's which have a different SONAME
+    - libllvm{{ major }} =={{ version }}
   host:
     - clangdev =={{ version }}
     - compiler-rt =={{ version }}
