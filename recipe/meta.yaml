@@ -10,7 +10,7 @@ source:
   sha256: f54cd5397f60a9f22f0b4a24fb9e9a1625a2499aca97c6cf3b418a77d039923a
 
 build:
-  number: 0
+  number: 1
   # intentionally only windows (main target) & linux (debuggability)
   skip: true  # [osx]
 
@@ -57,6 +57,7 @@ outputs:
       - lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.a                # [linux]
       - lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.so               # [linux]
       - Library/lib/clang/{{ major }}/lib/x86_64-pc-windows-msvc/flang_rt.runtime.static.lib    # [win]
+      - Library/lib/clang/{{ major }}/lib/x86_64-pc-windows-msvc/flang_rt.runtime.dynamic.lib   # [win]
     requirements:
       build:
         # for strong run-exports
@@ -72,9 +73,10 @@ outputs:
     test:
       commands:
         # target-specific runtime library location (default for flang)
-        - test -f $PREFIX/lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.a                    # [linux]
-        - test -f $PREFIX/lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.so                   # [linux]
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\x86_64-pc-windows-msvc\flang_rt.runtime.static.lib exit 1  # [win]
+        - test -f $PREFIX/lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.a                      # [linux]
+        - test -f $PREFIX/lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.so                     # [linux]
+        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\x86_64-pc-windows-msvc\flang_rt.runtime.static.lib exit 1    # [win]
+        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\x86_64-pc-windows-msvc\flang_rt.runtime.dynamic.lib exit 1   # [win]
 
 about:
   home: https://flang.llvm.org
