@@ -10,7 +10,7 @@ source:
   sha256: 9ee167cdf8f6b5221d6b02dbe9a664cf8c6fee70fab071aaa4a3889c7c265258
 
 build:
-  number: 0
+  number: 1
   # intentionally only windows (main target) & linux (debuggability)
   skip: true  # [osx]
 
@@ -54,13 +54,13 @@ outputs:
     build:
       noarch: generic
     files:
-      - lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.a                # [linux]
-      - lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.so               # [linux]
+      - lib/clang/{{ major }}/lib/linux/libflang_rt.runtime.a                       # [linux]
+      - lib/clang/{{ major }}/lib/linux/libflang_rt.runtime.so                      # [linux]
       # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
-      - Library/lib/clang/{{ major }}/lib/x86_64-pc-windows-msvc/flang_rt.runtime.static.lib    # [win]
-      - Library/lib/clang/{{ major }}/lib/x86_64-pc-windows-msvc/flang_rt.runtime.dynamic.lib   # [win]
-      - Library/lib/clang/{{ major }}/lib/x86_64-pc-windows-msvc/flang_rt.runtime.static_dbg.lib    # [win]
-      - Library/lib/clang/{{ major }}/lib/x86_64-pc-windows-msvc/flang_rt.runtime.dynamic_dbg.lib   # [win]
+      - Library/lib/clang/{{ major }}/lib/windows/flang_rt.runtime.static.lib       # [win]
+      - Library/lib/clang/{{ major }}/lib/windows/flang_rt.runtime.dynamic.lib      # [win]
+      - Library/lib/clang/{{ major }}/lib/windows/flang_rt.runtime.static_dbg.lib   # [win]
+      - Library/lib/clang/{{ major }}/lib/windows/flang_rt.runtime.dynamic_dbg.lib  # [win]
     requirements:
       build:
         # for strong run-exports
