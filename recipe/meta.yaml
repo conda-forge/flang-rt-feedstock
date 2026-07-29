@@ -85,6 +85,35 @@ outputs:
         - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\{{ win_target_triple }}\flang_rt.runtime.static_dbg.lib exit 1    # [win]
         - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\{{ win_target_triple }}\flang_rt.runtime.dynamic_dbg.lib exit 1   # [win]
 
+  - name: llvm-openmp-fortran
+    script: install_openmp_mod.bat
+    build:
+      # restricted to win64 for now
+      skip: true  # [not (win and x86_64)]
+      run_exports:
+        strong:
+          - llvm-openmp >={{ version }}
+    requirements:
+      build:
+        - cmake
+        - ninja
+        - {{ stdlib("c") }}
+        - {{ compiler("cxx") }}
+        - {{ compiler("fortran") }}
+      host:
+        - llvm-openmp {{ version }}
+        - {{ pin_subpackage("flang-rt_" ~ target_platform, exact=True) }}
+      run:
+        - llvm-openmp {{ version }}
+        - {{ pin_subpackage("flang-rt_" ~ target_platform, exact=True) }}
+      run_constrained:
+        # already contains the version
+        - {{ compiler("fortran") }}
+    test:
+      commands:
+        - if not exist %LIBRARY_INC%\omp_lib.mod exit 1
+        - if not exist %LIBRARY_INC%\omp_lib_kinds.mod exit 1
+
 about:
   home: https://flang.llvm.org
   license: Apache-2.0
