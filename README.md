@@ -58,52 +58,53 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-flang--rt__linux--64-green.svg)](https://anaconda.org/conda-forge/flang-rt_linux-64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/flang-rt_linux-64.svg)](https://anaconda.org/conda-forge/flang-rt_linux-64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/flang-rt_linux-64.svg)](https://anaconda.org/conda-forge/flang-rt_linux-64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/flang-rt_linux-64.svg)](https://anaconda.org/conda-forge/flang-rt_linux-64) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-flang--rt__win--64-green.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/flang-rt_win-64.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/flang-rt_win-64.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/flang-rt_win-64.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libflang--rt-green.svg)](https://anaconda.org/conda-forge/libflang-rt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libflang-rt.svg)](https://anaconda.org/conda-forge/libflang-rt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libflang-rt.svg)](https://anaconda.org/conda-forge/libflang-rt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libflang-rt.svg)](https://anaconda.org/conda-forge/libflang-rt) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-llvm--openmp--fortran-green.svg)](https://anaconda.org/conda-forge/llvm-openmp-fortran) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/llvm-openmp-fortran.svg)](https://anaconda.org/conda-forge/llvm-openmp-fortran) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/llvm-openmp-fortran.svg)](https://anaconda.org/conda-forge/llvm-openmp-fortran) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/llvm-openmp-fortran.svg)](https://anaconda.org/conda-forge/llvm-openmp-fortran) |
 
 Installing flang-rt
 ===================
 
-Installing `flang-rt` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `flang-rt` from the `conda-forge/label/llvm_rc` channel can be achieved by adding `conda-forge/label/llvm_rc` to your channels with:
 
 ```
-conda config --add channels conda-forge
+conda config --add channels conda-forge/label/llvm_rc
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `flang-rt_linux-64, flang-rt_win-64, libflang-rt` can be installed with `conda`:
+Once the `conda-forge/label/llvm_rc` channel has been enabled, `flang-rt_linux-64, flang-rt_win-64, libflang-rt, llvm-openmp-fortran` can be installed with `conda`:
 
 ```
-conda install flang-rt_linux-64 flang-rt_win-64 libflang-rt
+conda install flang-rt_linux-64 flang-rt_win-64 libflang-rt llvm-openmp-fortran
 ```
 
 or with `mamba`:
 
 ```
-mamba install flang-rt_linux-64 flang-rt_win-64 libflang-rt
+mamba install flang-rt_linux-64 flang-rt_win-64 libflang-rt llvm-openmp-fortran
 ```
 
 It is possible to list all of the versions of `flang-rt_linux-64` available on your platform with `conda`:
 
 ```
-conda search flang-rt_linux-64 --channel conda-forge
+conda search flang-rt_linux-64 --channel conda-forge/label/llvm_rc
 ```
 
 or with `mamba`:
 
 ```
-mamba search flang-rt_linux-64 --channel conda-forge
+mamba search flang-rt_linux-64 --channel conda-forge/label/llvm_rc
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search flang-rt_linux-64 --channel conda-forge
+mamba repoquery search flang-rt_linux-64 --channel conda-forge/label/llvm_rc
 
 # List packages depending on `flang-rt_linux-64`:
-mamba repoquery whoneeds flang-rt_linux-64 --channel conda-forge
+mamba repoquery whoneeds flang-rt_linux-64 --channel conda-forge/label/llvm_rc
 
 # List dependencies of `flang-rt_linux-64`:
-mamba repoquery depends flang-rt_linux-64 --channel conda-forge
+mamba repoquery depends flang-rt_linux-64 --channel conda-forge/label/llvm_rc
 ```
 
 
