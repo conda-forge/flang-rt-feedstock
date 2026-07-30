@@ -26,6 +26,9 @@ requirements:
     - flang =={{ version }}
     # only to avoid pulling in newer rc's which have a different SONAME
     - libllvm{{ major }} =={{ version }}
+    # flang looks for libmlir relative to its binary; since we're only
+    # doing native compilation here, accept this inaccuracy
+    - mlir =={{ version }}
   host:
     - clangdev =={{ version }}
     - compiler-rt =={{ version }}
