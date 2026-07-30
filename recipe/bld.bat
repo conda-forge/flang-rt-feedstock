@@ -1,5 +1,9 @@
 @echo on
 
+:: set compilers to clang-cl; MSVC doesn't like __attribute__
+set "CC=clang-cl"
+set "CXX=clang-cl"
+
 mkdir build
 cd build
 
