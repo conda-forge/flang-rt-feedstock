@@ -4,6 +4,13 @@
 set "CC=clang-cl"
 set "CXX=clang-cl"
 
+:: remove other MSVC installs in the image that interfere
+RMDIR /s /q "C:\Program Files\LLVM" || (echo Ignoring failure to delete C:\Program Files\LLVM)
+RMDIR /s /q "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\Llvm" ^
+    || (echo Ignoring failure to delete C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\Llvm)
+RMDIR /s /q "C:\Program Files\Microsoft Visual Studio\2026\Enterprise\VC\Tools\Llvm" ^
+    || (echo Ignoring failure to delete C:\Program Files\Microsoft Visual Studio\2026\Enterprise\VC\Tools\Llvm)
+
 mkdir build
 cd build
 
@@ -20,7 +27,7 @@ cmake -G "Ninja" ^
     -DLLVM_LIT_ARGS=-v ^
     -DLLVM_CMAKE_DIR=%LIBRARY_LIB%/cmake/llvm ^
     -DLLVM_DIR=%LIBRARY_LIB%/cmake/llvm ^
-    -DLLVM_ENABLE_RUNTIMES="flang-rt" ^
+    -DLLVM_ENABLE_RUNTIMES=openmp,flang-rt ^
     -DFLANG_RT_INCLUDE_TESTS=OFF ^
     ..\runtimes
 if %ERRORLEVEL% neq 0 exit 1
