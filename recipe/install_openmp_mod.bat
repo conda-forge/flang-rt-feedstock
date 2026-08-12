@@ -17,6 +17,8 @@ cmake -G "Ninja" %CMAKE_ARGS% ^
     -DCMAKE_BUILD_TYPE="Release" ^
     -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
     -DCMAKE_INSTALL_PREFIX:PATH=%LIBRARY_PREFIX% ^
+    -DCMAKE_Fortran_COMPILER=%BUILD_PREFIX%/Library/bin/flang.exe ^
+    -DCMAKE_Fortran_COMPILER_WORKS=yes ^
     -DLLVM_ENABLE_RUNTIMES=openmp,flang-rt ^
     -DLIBOMP_FORTRAN_MODULES=ON ^
     ../runtimes
