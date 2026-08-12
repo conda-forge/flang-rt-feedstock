@@ -29,6 +29,7 @@ cmake -G "Ninja" ^
     -DLLVM_DIR=%LIBRARY_LIB%/cmake/llvm ^
     -DLLVM_ENABLE_RUNTIMES=openmp,flang-rt ^
     -DFLANG_RT_INCLUDE_TESTS=OFF ^
+    -DLIBOMP_FORTRAN_MODULES=ON ^
     ..\runtimes
 if %ERRORLEVEL% neq 0 exit 1
 
