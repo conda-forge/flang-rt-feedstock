@@ -100,7 +100,7 @@ outputs:
         - ninja
         - {{ stdlib("c") }}
         - {{ compiler("cxx") }}
-        - {{ compiler("fortran") }}
+        - flang
       host:
         - llvm-openmp {{ version }}
         - {{ pin_subpackage("flang-rt_" ~ target_platform, exact=True) }}
