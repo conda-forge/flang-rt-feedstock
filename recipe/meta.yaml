@@ -19,6 +19,7 @@ requirements:
   build:
     - cmake
     - ninja
+    - python *
     - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
