@@ -1,5 +1,6 @@
 {% set version = "22.1.8" %}
 {% set major = version.split(".")[0] %}
+{% set win_target_triple = "aarch64-pc-windows-msvc" if target_platform == "win-arm64" else "x86_64-pc-windows-msvc" %}
 
 package:
   name: flang-rt-split
@@ -57,10 +58,10 @@ outputs:
       - lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.a                # [linux]
       - lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.so               # [linux]
       # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
-      - Library/lib/clang/{{ major }}/lib/x86_64-pc-windows-msvc/flang_rt.runtime.static.lib    # [win]
-      - Library/lib/clang/{{ major }}/lib/x86_64-pc-windows-msvc/flang_rt.runtime.dynamic.lib   # [win]
-      - Library/lib/clang/{{ major }}/lib/x86_64-pc-windows-msvc/flang_rt.runtime.static_dbg.lib    # [win]
-      - Library/lib/clang/{{ major }}/lib/x86_64-pc-windows-msvc/flang_rt.runtime.dynamic_dbg.lib   # [win]
+      - Library/lib/clang/{{ major }}/lib/{{ win_target_triple }}/flang_rt.runtime.static.lib    # [win]
+      - Library/lib/clang/{{ major }}/lib/{{ win_target_triple }}/flang_rt.runtime.dynamic.lib   # [win]
+      - Library/lib/clang/{{ major }}/lib/{{ win_target_triple }}/flang_rt.runtime.static_dbg.lib    # [win]
+      - Library/lib/clang/{{ major }}/lib/{{ win_target_triple }}/flang_rt.runtime.dynamic_dbg.lib   # [win]
     requirements:
       build:
         # for strong run-exports
@@ -78,10 +79,10 @@ outputs:
         # target-specific runtime library location (default for flang)
         - test -f $PREFIX/lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.a                      # [linux]
         - test -f $PREFIX/lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.so                     # [linux]
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\x86_64-pc-windows-msvc\flang_rt.runtime.static.lib exit 1    # [win]
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\x86_64-pc-windows-msvc\flang_rt.runtime.dynamic.lib exit 1   # [win]
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\x86_64-pc-windows-msvc\flang_rt.runtime.static_dbg.lib exit 1    # [win]
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\x86_64-pc-windows-msvc\flang_rt.runtime.dynamic_dbg.lib exit 1   # [win]
+        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\{{ win_target_triple }}\flang_rt.runtime.static.lib exit 1    # [win]
+        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\{{ win_target_triple }}\flang_rt.runtime.dynamic.lib exit 1   # [win]
+        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\{{ win_target_triple }}\flang_rt.runtime.static_dbg.lib exit 1    # [win]
+        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\{{ win_target_triple }}\flang_rt.runtime.dynamic_dbg.lib exit 1   # [win]
 
 about:
   home: https://flang.llvm.org
