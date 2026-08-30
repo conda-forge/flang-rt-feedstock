@@ -23,10 +23,13 @@ cmake -G "Ninja" ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_MODULE_PATH=../cmake/Modules ^
     -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX%;%LIBRARY_LIB%/clang/%PKG_VERSION% ^
+    -DLLVM_BINARY_DIR=%LIBRARY_BIN% ^
+    -DLLVM_EXTERNAL_LIT=%PREFIX%/Scripts/lit ^
     -DLLVM_LIT_ARGS=-v ^
     -DLLVM_CMAKE_DIR=%LIBRARY_LIB%/cmake/llvm ^
     -DLLVM_DIR=%LIBRARY_LIB%/cmake/llvm ^
     -DLLVM_ENABLE_RUNTIMES="flang-rt;openmp" ^
+    -DClang_DIR=%LIBRARY_PREFIX%/lib/cmake/clang ^
     -DFLANG_RT_INCLUDE_TESTS=OFF ^
     -DLIBOMP_FORTRAN_MODULES=ON ^
     ..\runtimes

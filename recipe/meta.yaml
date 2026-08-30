@@ -29,11 +29,15 @@ requirements:
     # flang looks for libmlir relative to its binary; since we're only
     # doing native compilation here, accept this inaccuracy
     - mlir =={{ version }}
+    - lit
   host:
     - clangdev =={{ version }}
     - compiler-rt =={{ version }}
     - llvmdev =={{ version }}
     - mlir =={{ version }}
+    - libxml2-devel
+    - zlib
+    - zstd
 
 outputs:
   - name: libflang-rt
