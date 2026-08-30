@@ -34,6 +34,7 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-flang--rt__win--64-green.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/flang-rt_win-64.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/flang-rt_win-64.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/flang-rt_win-64.svg)](https://anaconda.org/conda-forge/flang-rt_win-64) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-flang--rt__win--arm64-green.svg)](https://anaconda.org/conda-forge/flang-rt_win-arm64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/flang-rt_win-arm64.svg)](https://anaconda.org/conda-forge/flang-rt_win-arm64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/flang-rt_win-arm64.svg)](https://anaconda.org/conda-forge/flang-rt_win-arm64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/flang-rt_win-arm64.svg)](https://anaconda.org/conda-forge/flang-rt_win-arm64) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libflang--rt-green.svg)](https://anaconda.org/conda-forge/libflang-rt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libflang-rt.svg)](https://anaconda.org/conda-forge/libflang-rt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libflang-rt.svg)](https://anaconda.org/conda-forge/libflang-rt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libflang-rt.svg)](https://anaconda.org/conda-forge/libflang-rt) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-llvm--openmp--fortran-green.svg)](https://anaconda.org/conda-forge/llvm-openmp-fortran) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/llvm-openmp-fortran.svg)](https://anaconda.org/conda-forge/llvm-openmp-fortran) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/llvm-openmp-fortran.svg)](https://anaconda.org/conda-forge/llvm-openmp-fortran) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/llvm-openmp-fortran.svg)](https://anaconda.org/conda-forge/llvm-openmp-fortran) |
 
 Installing flang-rt
 ===================
@@ -52,7 +53,7 @@ How to use
 <summary>With conda</summary>
 
 ```
-conda install flang-rt_linux-64 flang-rt_win-64 flang-rt_win-arm64 libflang-rt
+conda install flang-rt_linux-64 flang-rt_win-64 flang-rt_win-arm64 libflang-rt llvm-openmp-fortran
 ```
 
 </details>
@@ -61,7 +62,7 @@ conda install flang-rt_linux-64 flang-rt_win-64 flang-rt_win-arm64 libflang-rt
 <summary>With mamba</summary>
 
 ```
-mamba install flang-rt_linux-64 flang-rt_win-64 flang-rt_win-arm64 libflang-rt
+mamba install flang-rt_linux-64 flang-rt_win-64 flang-rt_win-arm64 libflang-rt llvm-openmp-fortran
 ```
 
 </details>
@@ -71,9 +72,9 @@ mamba install flang-rt_linux-64 flang-rt_win-64 flang-rt_win-arm64 libflang-rt
 
 ```
 # for adding to your local project
-pixi add flang-rt_linux-64 flang-rt_win-64 flang-rt_win-arm64 libflang-rt
+pixi add flang-rt_linux-64 flang-rt_win-64 flang-rt_win-arm64 libflang-rt llvm-openmp-fortran
 # for installing globally
-pixi global install flang-rt_linux-64 flang-rt_win-64 flang-rt_win-arm64 libflang-rt
+pixi global install flang-rt_linux-64 flang-rt_win-64 flang-rt_win-arm64 libflang-rt llvm-openmp-fortran
 ```
 
 </details>
