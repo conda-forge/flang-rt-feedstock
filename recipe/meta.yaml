@@ -100,8 +100,7 @@ outputs:
         strong:
           - llvm-openmp >={{ version }}
     files:
-      - Library/include/omp_lib.mod         # [win]
-      - Library/include/omp_lib_kinds.mod   # [win]
+      - Library/lib/clang/{{ major }}/finclude/flang/{{ win_target_triple }}
     requirements:
       host:
         - llvm-openmp {{ version }}
@@ -111,8 +110,8 @@ outputs:
         - {{ pin_subpackage("flang-rt_" ~ target_platform, exact=True) }}
     test:
       commands:
-        - if not exist %LIBRARY_INC%\omp_lib.mod exit 1
-        - if not exist %LIBRARY_INC%\omp_lib_kinds.mod exit 1
+        - if not exist %LIBRARY_LIB%\clang\{{ major }}\finclude\flang\{{ win_target_triple }}\omp_lib.mod exit 1
+        - if not exist %LIBRARY_LIB%\clang\{{ major }}\finclude\flang\{{ win_target_triple }}\omp_lib_kinds.mod exit 1
 
 about:
   home: https://flang.llvm.org
