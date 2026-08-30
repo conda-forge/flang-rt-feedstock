@@ -94,8 +94,8 @@ outputs:
 
   - name: llvm-openmp-fortran
     build:
-      # restricted to win64 for now
-      skip: true  # [not (win and x86_64)]
+      # restricted to Windows for now
+      skip: true  # [not win]
       run_exports:
         strong:
           - llvm-openmp >={{ version }}
