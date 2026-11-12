@@ -1,124 +1,147 @@
-{% set version = "23.1.4" %}
-{% set major = version.split(".")[0] %}
-{% set win_target_triple = "aarch64-pc-windows-msvc" if target_platform == "win-arm64" else "x86_64-pc-windows-msvc" %}
+context:
+  version: "23.1.4"
+  major: ${{ (version | split(".") | list)[0] | int }}
+  triple_arch: ${{ "x86_64" if x86_64 else "aarch64" }}
+  triple_os: ${{ "pc-windows-msvc" if win else "unknown-linux-gnu" }}
+  target_triple: ${{ triple_arch ~ "-" ~ triple_os }}
 
-package:
+recipe:
   name: flang-rt-split
-  version: {{ version }}
+  version: ${{ version }}
 
 source:
-  url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
+  url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-${{ version|replace(".rc", "-rc") }}.tar.gz
   sha256: 3e1c70b30f623976c2046d94b8eeab6cac536f107914cb4ed7bac572a03131db
 
 build:
   number: 0
   # intentionally only windows (main target) & linux (debuggability)
-  skip: true  # [osx]
-
-requirements:
-  build:
-    - cmake
-    - ninja
-    - python *
-    - {{ stdlib('c') }}
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - flang =={{ version }}
-    # only to avoid pulling in newer rc's which have a different SONAME
-    - libllvm{{ major }} =={{ version }}
-    # flang looks for libmlir relative to its binary; since we're only
-    # doing native compilation here, accept this inaccuracy
-    - mlir =={{ version }}
-    - lit
-  host:
-    - clangdev =={{ version }}
-    - compiler-rt =={{ version }}
-    - llvmdev =={{ version }}
-    - mlir =={{ version }}
-    - libxml2-devel
-    - zlib
-    - zstd
+  skip: osx
 
 outputs:
-  - name: libflang-rt
+  - staging:
+      name: flang-rt-stage
+    build:
+      script:
+        file: build
+    requirements:
+      build:
+        - cmake
+        - ninja
+        - python *
+        - ${{ stdlib('c') }}
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+        - flang               ==${{ version }}
+        # only to avoid pulling in newer rc's which have a different SONAME
+        - libllvm${{ major }} ==${{ version }}
+        # flang looks for libmlir relative to its binary; since we're only
+        # doing native compilation here, accept this inaccuracy
+        - mlir                ==${{ version }}
+        - lit
+      host:
+        - clangdev      ==${{ version }}
+        - compiler-rt   ==${{ version }}
+        - llvmdev       ==${{ version }}
+        - mlir          ==${{ version }}
+        - libxml2-devel
+        - zlib
+        - zstd
+
+  - package:
+      name: libflang-rt
+    inherit: flang-rt-stage
     build:
       # not supported on windows yet, see
       # https://github.com/llvm/llvm-project/issues/134186
-      skip: true  # [win]
-    files:
-      - lib/libflang_rt.runtime.so  # [linux]
+      skip: win
+      files:
+        - lib/libflang_rt.runtime.so
     requirements:
       build:
         # for strong run-exports
-        - {{ stdlib('c') }}
-      run_constrained:
+        - ${{ stdlib('c') }}
+      run_constraints:
         # avoid old flang runtime
         - libflang <0.0a0
-    test:
-      commands:
-        # shared library; copied from target-specific location
-        - test -f $PREFIX/lib/libflang_rt.runtime.so    # [linux]
+    tests:
+      - package_contents:
+          files:
+            # shared library; copied from target-specific location
+            - lib/libflang_rt.runtime.so
 
-  - name: flang-rt_{{ target_platform }}
+  - package:
+      name: flang-rt_${{ target_platform }}
+    inherit: flang-rt-stage
     build:
       noarch: generic
-    files:
-      - lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.a                # [linux]
-      - lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.so               # [linux]
-      # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
-      - Library/lib/clang/{{ major }}/lib/{{ win_target_triple }}/flang_rt.runtime.static.lib    # [win]
-      - Library/lib/clang/{{ major }}/lib/{{ win_target_triple }}/flang_rt.runtime.dynamic.lib   # [win]
-      - Library/lib/clang/{{ major }}/lib/{{ win_target_triple }}/flang_rt.runtime.static_dbg.lib    # [win]
-      - Library/lib/clang/{{ major }}/lib/{{ win_target_triple }}/flang_rt.runtime.dynamic_dbg.lib   # [win]
+      files:
+        - if: unix
+          then:
+            - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.a
+            - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.so
+          else:
+            # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
+            - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static.lib
+            - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic.lib
+            - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static_dbg.lib
+            - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic_dbg.lib
     requirements:
       build:
         # for strong run-exports
-        - {{ stdlib('c') }}     # [linux]
+        - ${{ stdlib('c') }}
       host:
-        - clangdev =={{ version }}
-        - compiler-rt =={{ version }}
-        - llvmdev =={{ version }}
-        - mlir =={{ version }}
+        - clangdev      ==${{ version }}
+        - compiler-rt   ==${{ version }}
+        - llvmdev       ==${{ version }}
+        - mlir          ==${{ version }}
       run:
-        - clangdev =={{ version }}
-        - flang =={{ version }}
-    test:
-      commands:
-        # target-specific runtime library location (default for flang)
-        - test -f $PREFIX/lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.a                      # [linux]
-        - test -f $PREFIX/lib/clang/{{ major }}/lib/x86_64-unknown-linux-gnu/libflang_rt.runtime.so                     # [linux]
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\{{ win_target_triple }}\flang_rt.runtime.static.lib exit 1    # [win]
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\{{ win_target_triple }}\flang_rt.runtime.dynamic.lib exit 1   # [win]
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\{{ win_target_triple }}\flang_rt.runtime.static_dbg.lib exit 1    # [win]
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\lib\{{ win_target_triple }}\flang_rt.runtime.dynamic_dbg.lib exit 1   # [win]
+        - clangdev      ==${{ version }}
+        - flang         ==${{ version }}
+    tests:
+      - package_contents:
+          files:
+            - if: unix
+              then:
+                - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.a
+                - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.so
+              else:
+                # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
+                - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static.lib
+                - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic.lib
+                - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static_dbg.lib
+                - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic_dbg.lib
 
-  - name: llvm-openmp-fortran
+  - package:
+      name: llvm-openmp-fortran
+    inherit: flang-rt-stage
     build:
       # restricted to Windows for now
-      skip: true  # [not win]
-      run_exports:
-        strong:
-          - llvm-openmp >={{ version }}
-    files:
-      - Library/lib/clang/{{ major }}/finclude/flang/{{ win_target_triple }}
+      skip: not win
+      files:
+        - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/
     requirements:
       host:
-        - llvm-openmp {{ version }}
-        - {{ pin_subpackage("flang-rt_" ~ target_platform, exact=True) }}
+        - llvm-openmp ==${{ version }}
+        - ${{ pin_subpackage("flang-rt_" ~ target_platform, exact=True) }}
       run:
-        - llvm-openmp {{ version }}
-        - {{ pin_subpackage("flang-rt_" ~ target_platform, exact=True) }}
-    test:
-      commands:
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\finclude\flang\{{ win_target_triple }}\omp_lib.mod exit 1
-        - if not exist %LIBRARY_LIB%\clang\{{ major }}\finclude\flang\{{ win_target_triple }}\omp_lib_kinds.mod exit 1
+        - llvm-openmp ==${{ version }}
+        - ${{ pin_subpackage("flang-rt_" ~ target_platform, exact=True) }}
+      run_exports:
+        strong:
+          - llvm-openmp >=${{ version }}
+    tests:
+      - package_contents:
+          files:
+            - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib.mod
+            - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib_kinds.mod
 
 about:
-  home: https://flang.llvm.org
+  homepage: https://flang.llvm.org
   license: Apache-2.0
   license_file: flang/LICENSE.TXT
   summary: Flang is a Fortran compiler targeting LLVM.
-  dev_url: https://github.com/llvm/llvm-project
+  repository: https://github.com/llvm/llvm-project
 
 extra:
   recipe-maintainers:
