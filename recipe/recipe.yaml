@@ -132,6 +132,7 @@ outputs:
                   - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic_dbg.lib
             not_exists:
               # only relevant for windows for now
+              - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib.h
               - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib.mod
               - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib_kinds.mod
 
@@ -157,6 +158,7 @@ outputs:
       - package_contents:
           files:
             exists:
+              - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib.h
               - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib.mod
               - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib_kinds.mod
             not_exists:
