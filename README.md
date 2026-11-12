@@ -3,7 +3,7 @@ About flang-rt-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/flang-rt-feedstock/blob/main/LICENSE.txt)
 
-Home: https://flang.llvm.org
+Home: https://flang.llvm.org/
 
 Package license: Apache-2.0
 
