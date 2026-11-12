@@ -84,15 +84,20 @@ outputs:
           - if: unix
             then:
               - include/flang-rt/runtime/
+              - lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/*.mod
               - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.a
               - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.so
             else:
               - Library/include/flang-rt/runtime/
+              - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/*.mod
               # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
               - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static.lib
               - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic.lib
               - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static_dbg.lib
               - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic_dbg.lib
+        exclude:
+          # only relevant for windows for now
+          - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp*.mod
     requirements:
       build:
         # for strong run-exports
@@ -114,14 +119,21 @@ outputs:
             exists:
               - if: unix
                 then:
+                  - lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/__fortran_type_info.mod
                   - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.a
                   - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.so
                 else:
+                  # see https://github.com/conda-forge/flang-feedstock/issues/147
+                  - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/__fortran_type_info.mod
                   # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
                   - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static.lib
                   - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic.lib
                   - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static_dbg.lib
                   - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic_dbg.lib
+            not_exists:
+              # only relevant for windows for now
+              - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib.mod
+              - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib_kinds.mod
 
   - package:
       name: llvm-openmp-fortran
@@ -147,6 +159,8 @@ outputs:
             exists:
               - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib.mod
               - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib_kinds.mod
+            not_exists:
+              - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/__fortran_type_info.mod
 
 about:
   homepage: https://flang.llvm.org
