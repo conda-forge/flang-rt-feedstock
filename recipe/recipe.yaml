@@ -24,6 +24,10 @@ outputs:
     build:
       script:
         file: build
+        # this is a work-around for something rattler-build should be doing,
+        # see https://github.com/prefix-dev/rattler-build/issues/2587
+        env:
+          PKG_VERSION: ${{ version }}
     requirements:
       build:
         - cmake
