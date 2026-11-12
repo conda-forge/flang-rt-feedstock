@@ -82,9 +82,11 @@ outputs:
       files:
         - if: unix
           then:
+            - include/flang-rt/runtime/
             - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.a
             - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.so
           else:
+            - Library/include/flang-rt/runtime/
             # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
             - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static.lib
             - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic.lib
@@ -104,6 +106,9 @@ outputs:
         - flang         ==${{ version }}
     tests:
       - package_contents:
+          include:
+            # sample
+            - flang-rt/runtime/buffer.h
           files:
             - if: unix
               then:
