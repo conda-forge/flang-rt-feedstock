@@ -80,18 +80,19 @@ outputs:
     build:
       noarch: generic
       files:
-        - if: unix
-          then:
-            - include/flang-rt/runtime/
-            - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.a
-            - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.so
-          else:
-            - Library/include/flang-rt/runtime/
-            # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
-            - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static.lib
-            - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic.lib
-            - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static_dbg.lib
-            - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic_dbg.lib
+        include:
+          - if: unix
+            then:
+              - include/flang-rt/runtime/
+              - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.a
+              - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.so
+            else:
+              - Library/include/flang-rt/runtime/
+              # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
+              - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static.lib
+              - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic.lib
+              - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static_dbg.lib
+              - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic_dbg.lib
     requirements:
       build:
         # for strong run-exports
@@ -110,16 +111,17 @@ outputs:
             # sample
             - flang-rt/runtime/buffer.h
           files:
-            - if: unix
-              then:
-                - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.a
-                - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.so
-              else:
-                # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
-                - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static.lib
-                - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic.lib
-                - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static_dbg.lib
-                - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic_dbg.lib
+            exists:
+              - if: unix
+                then:
+                  - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.a
+                  - lib/clang/${{ major }}/lib/${{ target_triple }}/libflang_rt.runtime.so
+                else:
+                  # corresponding to different flavours of the MSVC runtime, i.e. `/MD`, `/MDd`, `/MT`, `/MTd`
+                  - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static.lib
+                  - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic.lib
+                  - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.static_dbg.lib
+                  - Library/lib/clang/${{ major }}/lib/${{ target_triple }}/flang_rt.runtime.dynamic_dbg.lib
 
   - package:
       name: llvm-openmp-fortran
@@ -142,8 +144,9 @@ outputs:
     tests:
       - package_contents:
           files:
-            - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib.mod
-            - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib_kinds.mod
+            exists:
+              - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib.mod
+              - Library/lib/clang/${{ major }}/finclude/flang/${{ target_triple }}/omp_lib_kinds.mod
 
 about:
   homepage: https://flang.llvm.org
